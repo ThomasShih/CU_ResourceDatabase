@@ -22,7 +22,7 @@ def availableCourses(request):
   except Exception as e: 
     return JsonResponse({
         "status":404,
-        "message":e,
+        "message":str(e),
       },status=404)
 
 def getChapter(key):
@@ -46,5 +46,5 @@ def getCourse(request,subject,code):
   except Exception as e: 
     return JsonResponse({
         "status":404,
-        "message":e,
+        "message":str(e),
       },status=404)
