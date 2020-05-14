@@ -6,11 +6,6 @@ from .models import Chapter,Course
 
 markdownFilePath = ".\\markdownFiles\\"
 
-retrieveError404 = {
-  "status":404,
-  "message":"Could not retrieve",
-}
-
 def getChapterMD(request=None,key=None,inputfileName=None):
   """Returns markdown file of selected chapters"""
   fileName = Chapter.objects.get(pk=key).fileName if inputfileName == None else inputfileName
@@ -24,7 +19,11 @@ def availableCourses(request):
     courseList = Course.objects.all()
     response = [{"subject":c.subject,"code":c.code} for c in courseList]
     return JsonResponse(response,safe=False)
-  except: return JsonResponse(retrieveError404,status=404)
+  except Exception as e: 
+    return JsonResponse({
+        "status":404,
+        "message":e,
+      },status=404)
 
 def getChapter(key):
   chapter = Chapter.objects.get(pk=key)
@@ -44,4 +43,8 @@ def getCourse(request,subject,code):
       "chapters":[getChapter(chapter.id) for chapter in course.chapters.all()],
     }
     return JsonResponse(response)
-  except: return JsonResponse(retrieveError404,status=404)
+  except Exception as e: 
+    return JsonResponse({
+        "status":404,
+        "message":e,
+      },status=404)
