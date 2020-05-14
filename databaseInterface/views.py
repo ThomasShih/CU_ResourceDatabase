@@ -4,7 +4,7 @@ from django.core import serializers
 
 from .models import Chapter,Course
 
-markdownFilePath = ".\\markdownFiles\\"
+markdownFilePath = "./markdownFiles/"
 
 def getChapterMD(request=None,key=None,inputfileName=None):
   """Returns markdown file of selected chapters"""
@@ -19,7 +19,7 @@ def availableCourses(request):
     courseList = Course.objects.all()
     response = [{"subject":c.subject,"code":c.code} for c in courseList]
     return JsonResponse(response,safe=False)
-  except Exception as e: 
+  except Exception as e:
     return JsonResponse({
         "status":404,
         "message":str(e),
@@ -43,7 +43,7 @@ def getCourse(request,subject,code):
       "chapters":[getChapter(chapter.id) for chapter in course.chapters.all()],
     }
     return JsonResponse(response)
-  except Exception as e: 
+  except Exception as e:
     return JsonResponse({
         "status":404,
         "message":str(e),
